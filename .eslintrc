@@ -2,7 +2,9 @@
   "env": {
     "node": true
   },
-  "parserOptions": {
-    "ecmaVersion": 8
-  }
+  "parser": "babel-eslint",
+    "parserOptions": {
+        "sourceType": "module",
+        "allowImportExportEverywhere": true
+    }
 }
