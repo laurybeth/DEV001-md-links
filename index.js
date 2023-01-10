@@ -12,6 +12,8 @@ console.log("opcion es", validate);
 mdLinks(path, validate).then((links)=>{
 
   console.log('mdlinks: ',links);
+}).catch((error)=>{
+  console.log(error);
 });
 
 
