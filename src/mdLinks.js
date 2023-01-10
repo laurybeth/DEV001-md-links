@@ -1,15 +1,4 @@
-
-
-function resolved(path) {
-    path='array of links';
-    return path;
-  }
-  
-  function rejected() {
-    const error = 'fail';
-    return error;
-
-  }
+import {resolved, rejected} from './promise.js'
 
   
 
