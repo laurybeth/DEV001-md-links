@@ -1,10 +1,10 @@
-const mdLinks = require('../');
+const {mdLinks} = require('../src/mdLinks.js');
 
 
 describe('mdLinks', () => {
 
-  it('should...', () => {
-    console.log('FIX ME!');
+  it('Should return a promise', () => {
+    expect(mdLinks()).toBe(typeof Promise);
   });
 
 });
