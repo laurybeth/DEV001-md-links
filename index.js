@@ -1,5 +1,5 @@
 
-import {mdLinks} from './src/mdLinks.js'
+const {mdLinks} = require('./src/mdLinks');
 
 const arg = process.argv.slice(2); //  process.argv property is an inbuilt application programming interface of the process module which is used to get the arguments passed to the node.js
 const path = arg[0];
@@ -14,3 +14,5 @@ mdLinks(path).then((links)=>{
 }).catch((error)=>{
   console.log(error);
 });
+
+

@@ -1,14 +1,15 @@
-import {resolved, rejected} from './promise.js'
+const { resolved, rejected } = require('./promise.js');
+const fs = require('fs');
 
-  
+const mdLinks = (path) => new Promise((resolve, reject) => {
 
-export const mdLinks = (path) => new Promise( (resolve, reject) => {
-  
-      let todoCorrecto = true;
-      if (todoCorrecto) {
-        resolve(resolved(path));
-      } else {
-        reject(rejected);
-      }
-  })
+  if (fs.existsSync(path)) {
+    resolve(resolved(path));
+  } else {
+    reject(rejected('Invalid path'));
+  }
+})
 
+module.exports = {
+  mdLinks,
+};
