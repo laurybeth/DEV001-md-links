@@ -1,5 +1,5 @@
 
-const {mdLinks} = require('./src/mdLinks');
+const {mdLinks} = require('./src/index');
 
 const arg = process.argv.slice(2); //  process.argv property is an inbuilt application programming interface of the process module which is used to get the arguments passed to the node.js
 const path = arg[0];
