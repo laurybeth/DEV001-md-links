@@ -1,9 +1,9 @@
 const { resolved, rejected } = require('./promise.js');
-const fs = require('fs');
+const { isValidatePath } = require('./validatePath.js');
 
 const mdLinks = (path) => new Promise((resolve, reject) => {
 
-  if (fs.existsSync(path)) {
+  if (isValidatePath(path)) {
     resolve(resolved(path));
   } else {
     reject(rejected('Invalid path'));
