@@ -1,16 +1,7 @@
-const { mdLinks } = require('../src/index.js');
-
+const { mdLinks } = require('../src/index');
 
 describe('mdLinks', () => {
-
-  it('Should return a promise', () => {
-    expect(mdLinks()).toBe(typeof Promise);
-  });
-  it.only('Should reject when it is an invalid path', () => {
-    return (mdLinks('./README'))
-      .catch((error) => {
-        expect(error).toBe('Invalid path')
-      });
-  });
-
+  it('Should reject when it is an invalid path', () => expect(mdLinks('./README'))
+    .rejects
+    .toMatch('Invalid path'));
 });
