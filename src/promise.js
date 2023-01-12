@@ -1,15 +1,8 @@
+const resolved = (path) => path;
 
-const resolved= (path) => {
-  path = 'array of links';
-  return path;
-}
-
-const rejected = (error) => {
-  return error;
-
-}
+const rejected = (error) => error;
 
 module.exports = {
   resolved,
-  rejected
+  rejected,
 };

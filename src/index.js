@@ -1,9 +1,10 @@
 const { resolved, rejected } = require('./promise');
-const { isValidatePath } = require('./validatePath');
+const { isValid, toAbsolute } = require('./checkingPath');
 
 const mdLinks = (path) => new Promise((resolve, reject) => {
-  if (isValidatePath(path)) {
-    resolve(resolved(path));
+  if (isValid(path)) {
+    const absolutePath = toAbsolute(path);
+    resolve(resolved(absolutePath));
   } else {
     reject(rejected('Invalid path'));
   }
