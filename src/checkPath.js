@@ -16,7 +16,17 @@ const toAbsolute = (filePath) => {
   return filePath;
 };
 
+const isMD = (absolutePath) => {
+  const fileExtension = path.extname(absolutePath);
+  console.log('file extension', fileExtension);
+  if (fileExtension === '.md') {
+    return true;
+  }
+  return false;
+};
+
 module.exports = {
   isValid,
   toAbsolute,
+  isMD,
 };
