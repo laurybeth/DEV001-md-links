@@ -1,17 +1,17 @@
-const fs = require('fs');
 const { resolved, rejected } = require('./promise');
-const { isValid, toAbsolute, isMD } = require('./checkPath');
+const {
+  isValid, toAbsolute, isDirectory, isMD,
+} = require('./checkPath');
 
 const mdLinks = (filePath) => new Promise((resolve, reject) => {
   if (isValid(filePath)) {
     const absolutePath = toAbsolute(filePath);
-    const isDirectory = fs.statSync(absolutePath).isDirectory();
-    if (!isDirectory) {
+    if (!isDirectory(absolutePath)) {
       // Identificar si el path corresponde a un archivo md
       if (isMD(absolutePath)) {
         resolve(resolved('It is a MD file'));
       } else {
-        reject(rejected('Any MD file found'));
+        reject(rejected('No MD file found'));
       }
     } else {
       resolve(resolved('It is a directory'));

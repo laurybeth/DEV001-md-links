@@ -16,9 +16,16 @@ const toAbsolute = (filePath) => {
   return filePath;
 };
 
+const isDirectory = (filePath) => {
+  if (fs.statSync(filePath).isDirectory()) {
+    return true;
+  }
+  return false;
+};
+
 const isMD = (absolutePath) => {
-  const fileExtension = path.extname(absolutePath);
-  console.log('file extension', fileExtension);
+  const fileExtension = path.extname(absolutePath).toLowerCase();
+
   if (fileExtension === '.md') {
     return true;
   }
@@ -27,6 +34,7 @@ const isMD = (absolutePath) => {
 
 module.exports = {
   isValid,
+  isDirectory,
   toAbsolute,
   isMD,
 };
