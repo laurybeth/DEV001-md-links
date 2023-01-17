@@ -15,8 +15,8 @@ const mdLinks = (filePath) => new Promise((resolve, reject) => {
             // Verificar si validate = true
             resolve(resolved(arrayLinks));
           })
-          .catch(() => {
-            reject(rejected('Error getting links'));
+          .catch((error) => {
+            reject(rejected(error));
           });
       } else {
         reject(rejected('No MD file found'));

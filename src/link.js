@@ -34,7 +34,13 @@ const getLinks = (path) => new Promise((resolve, reject) => {
           }
         });
       });
-      resolve(arrayLinks);
+
+      if (arrayLinks.length === 0) {
+        reject(new Error('No link found'));
+      } else {
+        resolve(arrayLinks);
+      }
+
       // console.log('arrayLinks: ', arrayLinks);
     })
     .catch((error) => {
