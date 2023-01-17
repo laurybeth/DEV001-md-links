@@ -1,27 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const isValid = (filePath) => {
-  if (filePath && fs.existsSync(filePath)) {
-    return true;
-  }
-  return false;
-};
+const isValid = (filePath) => (filePath && fs.existsSync(filePath));
 
-const toAbsolute = (filePath) => {
-  if (!path.isAbsolute(filePath)) {
-    const absolutePath = path.resolve(filePath);
-    return absolutePath;
-  }
-  return filePath;
-};
+const resolvePath = (filePath) => path.resolve(filePath);
 
-const isDirectory = (filePath) => {
-  if (fs.statSync(filePath).isDirectory()) {
-    return true;
-  }
-  return false;
-};
+const isDirectory = (filePath) => fs.statSync(filePath).isDirectory();
 
 const isMD = (absolutePath) => {
   const fileExtension = path.extname(absolutePath).toLowerCase();
@@ -35,6 +19,6 @@ const isMD = (absolutePath) => {
 module.exports = {
   isValid,
   isDirectory,
-  toAbsolute,
+  resolvePath,
   isMD,
 };

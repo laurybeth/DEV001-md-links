@@ -1,12 +1,12 @@
 const { resolved, rejected } = require('./promise');
 const { getLinks } = require('./link');
 const {
-  isValid, toAbsolute, isDirectory, isMD,
+  isValid, resolvePath, isDirectory, isMD,
 } = require('./checkPath');
 
 const mdLinks = (filePath) => new Promise((resolve, reject) => {
   if (isValid(filePath)) {
-    const absolutePath = toAbsolute(filePath);
+    const absolutePath = resolvePath(filePath);
     if (!isDirectory(absolutePath)) {
       // Identificar si el path corresponde a un archivo md
       if (isMD(absolutePath)) {
