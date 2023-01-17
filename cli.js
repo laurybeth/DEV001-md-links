@@ -7,7 +7,7 @@ console.log('ruta es', path);
 // console.log("opcion es", validate);
 
 mdLinks(path).then((links) => {
-  console.log('mdlinks result: ', links);
+  console.log('Md-links: ', links);
 }).catch((error) => {
   console.log(error);
 });

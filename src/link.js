@@ -63,6 +63,19 @@ const getLinks = (path) => new Promise((resolve, reject) => {
           }
         }
       } */
+
+const validateLinks = (arrOfLinks) => {
+  const arrOfValidateLinks = arrOfLinks.map((link) => fetch(link.href)
+    .then((response) => ({
+      href: link.href,
+      text: link.text,
+      file: link.file,
+      status: response.status,
+      isOk: response.status < 400 ? 'ok' : 'fail',
+    })));
+  return Promise.all(arrOfValidateLinks);
+};
+
 module.exports = {
   getLinks,
 };

@@ -12,6 +12,7 @@ const mdLinks = (filePath) => new Promise((resolve, reject) => {
       if (isMD(absolutePath)) {
         getLinks(absolutePath)
           .then((arrayLinks) => {
+            // Verificar si validate = true
             resolve(resolved(arrayLinks));
           })
           .catch(() => {
