@@ -10,8 +10,13 @@ const mdLinks = (filePath) => new Promise((resolve, reject) => {
     if (!isDirectory(absolutePath)) {
       // Identificar si el path corresponde a un archivo md
       if (isMD(absolutePath)) {
-        getLinks(absolutePath);
-        resolve(resolved('It is a MD file'));
+        getLinks(absolutePath)
+          .then((arrayLinks) => {
+            resolve(resolved(arrayLinks));
+          })
+          .catch(() => {
+            reject(rejected('Error getting links'));
+          });
       } else {
         reject(rejected('No MD file found'));
       }
