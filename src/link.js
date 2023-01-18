@@ -1,5 +1,6 @@
 const MarkdownIt = require('markdown-it');
 const fs = require('node:fs/promises');
+const fetch = require('node-fetch');
 
 const getLinks = (path) => new Promise((resolve, reject) => {
   fs.readFile(path, { encoding: 'utf8' })
@@ -48,8 +49,25 @@ const getLinks = (path) => new Promise((resolve, reject) => {
     });
 });
 
+const getLinkStatus = (arrayLinks) => new Promise((resolve, reject) => {
+  const validateLinks = arrayLinks.map((link) => fetch(link.href)
+    .then((response) => ({
+      href: link.href,
+      text: link.text,
+      file: link.file,
+      status: response.status,
+      ok: response.status < 400 ? 'ok' : 'fail',
+    })).catch((error) => {
+      console.log('error: ', error);
+      reject(new Error(error));
+    }));
+  //console.log('validateLinks: ', validateLinks);
+  resolve(Promise.all(validateLinks));
+});
+
 module.exports = {
   getLinks,
+  getLinkStatus,
 };
 
 /*       for (let i = 0; i < result.length; i += 1) {
@@ -73,4 +91,3 @@ module.exports = {
           }
         }
       } */
-

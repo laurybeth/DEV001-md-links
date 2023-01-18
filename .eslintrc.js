@@ -15,4 +15,11 @@ module.exports = {
 
     'linebreak-style': 0,
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: ['node-fetch'],
+      },
+    },
+  },
 };

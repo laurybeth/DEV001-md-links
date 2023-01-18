@@ -7,7 +7,7 @@ const path = args[0];
 const inputCommands = args.slice(1);
 
 const options = validateCommands(inputCommands);
-console.log('options ', options);
+//console.log('options ', options);
 
 if ((Object.keys(options).length === 0) && (inputCommands.length !== 0)) {
   console.log('md-links: ', inputCommands, ' not a md-links command (s)');
