@@ -1,10 +1,11 @@
 const { resolved, rejected } = require('./promise');
 const { getLinks } = require('./link');
+
 const {
   isValid, resolvePath, isDirectory, isMD,
 } = require('./checkPath');
 
-const mdLinks = (filePath) => new Promise((resolve, reject) => {
+const mdLinks = (filePath, options) => new Promise((resolve, reject) => {
   if (isValid(filePath)) {
     const absolutePath = resolvePath(filePath);
     if (!isDirectory(absolutePath)) {

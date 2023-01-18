@@ -1,13 +1,20 @@
 const { mdLinks } = require('./src/index');
+const { validateCommands } = require('./src/utils');
 
-const arg = process.argv.slice(2); //  process.argv property is an inbuilt application programming interface of the process module which is used to get the arguments passed to the node.js
-const path = arg[0];
-// const validate = arg[1];
-console.log('ruta es', path);
-// console.log("opcion es", validate);
+const args = process.argv.slice(2); //  process.argv property is an inbuilt application programming interface of the process module which is used to get the arguments passed to the node.js
+const path = args[0];
 
-mdLinks(path).then((links) => {
-  console.log('Md-links: ', links);
-}).catch((error) => {
-  console.log(error);
-});
+const inputCommands = args.slice(1);
+
+const options = validateCommands(inputCommands);
+console.log('options ', options);
+
+if ((Object.keys(options).length === 0) && (inputCommands.length !== 0)) {
+  console.log('md-links: ', inputCommands, ' not a md-links command (s)');
+} else {
+  mdLinks(path, options).then((links) => {
+    console.log('Md-links: ', links);
+  }).catch((error) => {
+    console.log(error);
+  });
+}
