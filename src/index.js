@@ -14,7 +14,11 @@ const mdLinks = (filePath, options) => new Promise((resolve, reject) => {
         getLinks(absolutePath)
           .then((arrayLinks) => {
             // Verificar si validate = true
-            resolve(resolved(arrayLinks));
+            if (options.validate && !options.stats) {
+              console.log('Check for broken link');
+            } else {
+              resolve(resolved(arrayLinks));
+            }
           })
           .catch((error) => {
             reject(rejected(error));

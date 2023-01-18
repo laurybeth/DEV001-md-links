@@ -48,6 +48,10 @@ const getLinks = (path) => new Promise((resolve, reject) => {
     });
 });
 
+module.exports = {
+  getLinks,
+};
+
 /*       for (let i = 0; i < result.length; i += 1) {
         if (result[i].type === 'inline') {
           // console.log('inline: ', result[i]);
@@ -70,6 +74,3 @@ const getLinks = (path) => new Promise((resolve, reject) => {
         }
       } */
 
-module.exports = {
-  getLinks,
-};
