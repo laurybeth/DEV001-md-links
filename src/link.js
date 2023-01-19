@@ -2,7 +2,6 @@ const MarkdownIt = require('markdown-it');
 const fs = require('node:fs/promises');
 // const fetch = require('node-fetch');
 const axios = require('axios');
-const { resolvePath } = require('./checkPath');
 
 const getLinks = (path) => new Promise((resolve, reject) => {
   fs.readFile(path, { encoding: 'utf8' })
@@ -72,7 +71,7 @@ const getLinkStatus = (arrayLinks) => new Promise((resolve) => {
         errorStatus = error.response.status;
       } else if (error.request) {
         // La petición fue hecha pero no se recibió respuesta
-        errorStatus = error.request.status;
+        errorStatus = 400;
       } else {
         // Algo paso al preparar la petición que lanzo un Error
         errorStatus = 500;
