@@ -1,6 +1,8 @@
 const MarkdownIt = require('markdown-it');
 const fs = require('node:fs/promises');
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
+const axios = require('axios');
+const { resolvePath } = require('./checkPath');
 
 const getLinks = (path) => new Promise((resolve, reject) => {
   fs.readFile(path, { encoding: 'utf8' })
@@ -15,19 +17,23 @@ const getLinks = (path) => new Promise((resolve, reject) => {
         let isLinkOpen = false;
         let isLinkClosed = false;
         let text = '';
+        let isTitle = false;
         const linkObj = {};
         token.children.forEach((child) => {
           if ((isLinkOpen === true) && (isLinkClosed === false)) {
             text += child.content;
           }
-          if (child.type === 'link_open') {
+
+          if ((child.type === 'link_open') && (child.attrs[0][1][0] !== '#')) {
             const href = child.attrs[0][1];
             linkObj.href = href;
             linkObj.file = path;
             // console.log('href: ', linkObj.href);
             isLinkOpen = true;
+          } else if ((child.type === 'link_open') && (child.attrs[0][1][0] === '#')) {
+            isTitle = true;
           }
-          if (child.type === 'link_close') {
+          if ((child.type === 'link_close') && (isTitle === false)) {
             linkObj.text = text;
             // console.log('text: ', linkObj.text);
             isLinkClosed = true;
@@ -49,8 +55,34 @@ const getLinks = (path) => new Promise((resolve, reject) => {
     });
 });
 
-const getLinkStatus = (arrayLinks) => new Promise((resolve, reject) => {
-  const validateLinks = arrayLinks.map((link) => fetch(link.href)
+const getLinkStatus = (arrayLinks) => new Promise((resolve) => {
+  const validateLinks = arrayLinks.map((link) => axios.get(link.href)
+    .then((response) => {
+    // handle success
+      const { status } = response;
+      return { ...link, status, message: 'ok' };
+    })
+    .catch((error) => {
+      // handle error
+      let errorStatus;
+
+      if (error.response) {
+        // La respuesta fue hecha y el servidor respondió con un código de estado
+        // que esta fuera del rango de 2xx
+        errorStatus = error.response.status;
+      } else if (error.request) {
+        // La petición fue hecha pero no se recibió respuesta
+        errorStatus = error.request.status;
+      } else {
+        // Algo paso al preparar la petición que lanzo un Error
+        errorStatus = 500;
+      }
+      // console.log('errorStatus', errorStatus);
+      return { ...link, status: errorStatus, message: 'fail' };
+    }));
+  // console.log('validateLinks: ', validateLinks);
+  resolve(Promise.all(validateLinks));
+  /* const validateLinks = arrayLinks.map((link) => fetch(link.href)
     .then((response) => ({
       href: link.href,
       text: link.text,
@@ -62,7 +94,7 @@ const getLinkStatus = (arrayLinks) => new Promise((resolve, reject) => {
       reject(new Error(error));
     }));
   //console.log('validateLinks: ', validateLinks);
-  resolve(Promise.all(validateLinks));
+  resolve(Promise.all(validateLinks)); */
 });
 
 module.exports = {

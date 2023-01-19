@@ -1,6 +1,7 @@
 # Data Lovers Estudio Ghibli
 ## Índice
 
+
 * [1. Usuarios Principales](#1-usuarios)
 * [2. Objetivos de los usuarios](#2-objetivos)
 * [3. Historias de Usuario](#3-historias-de-usuarios)
