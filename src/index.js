@@ -14,7 +14,6 @@ const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
         getLinks(absolutePath)
           .then((arrayLinks) => {
             // Verificar si validate = true
-            console.log('options en index.js', options);
             if (options.validate && !options.stats) {
               getLinkStatus(arrayLinks)
                 .then((validateLinks) => {
