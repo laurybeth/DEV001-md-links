@@ -61,10 +61,8 @@ const getLinkStatus = (arrayLinks) => new Promise((resolve) => {
       const { status } = response;
       return { ...link, status, message: 'ok' };
     })
-    .catch((error) => {
-      // handle error
+    .catch((error) => { // handle error
       let errorStatus;
-
       if (error.response) {
         // La respuesta fue hecha y el servidor respondió con un código de estado
         // que esta fuera del rango de 2xx
@@ -81,19 +79,6 @@ const getLinkStatus = (arrayLinks) => new Promise((resolve) => {
     }));
   // console.log('validateLinks: ', validateLinks);
   resolve(Promise.all(validateLinks));
-  /* const validateLinks = arrayLinks.map((link) => fetch(link.href)
-    .then((response) => ({
-      href: link.href,
-      text: link.text,
-      file: link.file,
-      status: response.status,
-      ok: response.status < 400 ? 'ok' : 'fail',
-    })).catch((error) => {
-      console.log('error: ', error);
-      reject(new Error(error));
-    }));
-  //console.log('validateLinks: ', validateLinks);
-  resolve(Promise.all(validateLinks)); */
 });
 
 module.exports = {
