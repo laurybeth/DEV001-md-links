@@ -15,18 +15,16 @@ const getLinks = (path) => new Promise((resolve, reject) => {
       inlineTokensArray.forEach((token) => {
         let isLinkOpen = false;
         let isLinkClosed = false;
-        let text = '';
         let isTitle = false;
-        const linkObj = {};
+        let href = '';
+        let text = '';
         token.children.forEach((child) => {
           if ((isLinkOpen === true) && (isLinkClosed === false)) {
             text += child.content;
           }
 
           if ((child.type === 'link_open') && (child.attrs[0][1][0] !== '#')) {
-            const href = child.attrs[0][1];
-            linkObj.href = href;
-            linkObj.file = path;
+            href = child.attrs[0][1];
             // console.log('href: ', linkObj.href);
             isLinkOpen = true;
           } else if ((child.type === 'link_open') && (child.attrs[0][1][0] === '#')) {
