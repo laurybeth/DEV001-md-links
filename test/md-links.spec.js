@@ -19,14 +19,14 @@ const oneLink = [
 
 const fiveLinks = [
   {
-    href: 'https://gist.github.com/BCasal/026e4c7f5c71418485c1',
+    href: 'https://help.github.com/articles/fork-a-repo/',
     file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\fiveLinks.md',
     text: 'fork',
   },
   {
     href: 'https://gist.github.com/BCasal/026e4c7f5c71418485c1',
     file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\fiveLinks.md',
-    text: 'fork',
+    text: 'configurar',
   },
   {
     href: 'https://help.github.com/articles/cloning-a-repository/',
@@ -47,18 +47,14 @@ const fiveLinks = [
 
 const expectedLinkStatus = [
   {
-    href: 'https://gist.github.com/BCasal/026e4c7f5c71418485c1',
-    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\tenLinks.md',
+    href: 'https://help.github.com/articles/fork-a-repo/',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\fiveLinks.md',
     text: 'fork',
-    status: 200,
-    message: 'ok',
   },
   {
     href: 'https://gist.github.com/BCasal/026e4c7f5c71418485c1',
-    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\tenLinks.md',
-    text: 'fork',
-    status: 200,
-    message: 'ok',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\fiveLinks.md',
+    text: 'configurar',
   },
   {
     href: 'https://help.github.com/articles/cloning-a-repository/',

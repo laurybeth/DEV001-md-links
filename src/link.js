@@ -14,7 +14,7 @@ const getLinks = (path) => new Promise((resolve, reject) => {
 
       inlineTokensArray.forEach((token) => {
         let isLinkOpen = false;
-        let isLinkClosed = false;
+        let isLinkClosed = true;
         let isTitle = false;
         let href = '';
         let text = '';
@@ -24,9 +24,11 @@ const getLinks = (path) => new Promise((resolve, reject) => {
           }
 
           if ((child.type === 'link_open') && (child.attrs[0][1][0] !== '#')) {
+            // eslint-disable-next-line prefer-destructuring
             href = child.attrs[0][1];
-            // console.log('href: ', linkObj.href);
+            text = '';
             isLinkOpen = true;
+            isLinkClosed = false;
           } else if ((child.type === 'link_open') && (child.attrs[0][1][0] === '#')) {
             isTitle = true;
           }
