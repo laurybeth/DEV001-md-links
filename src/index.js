@@ -1,5 +1,7 @@
 const { resolved, rejected } = require('./promise');
-const { getLinks, getLinkStatus } = require('./link');
+const {
+  getLinks, getLinkStatus, getStats, getStatsValidate,
+} = require('./link');
 
 const {
   isValid, resolvePath, isDirectory, isMD,
@@ -23,9 +25,17 @@ const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
                   reject(rejected(error));
                 });
             } else if (!options.validate && options.stats) {
-              console.log('Result: Count of total and unique links');
+              const stats = getStats(arrayLinks);
+              resolve(resolved(stats));
             } else if (options.validate && options.stats) {
-              console.log('Result: Count of total, unique and broken links');
+              getLinkStatus(arrayLinks)
+                .then((validateLinks) => {
+                  const statsAndValidate = getStatsValidate(validateLinks);
+                  resolve(resolved(statsAndValidate));
+                })
+                .catch((error) => {
+                  reject(rejected(error));
+                });
             } else {
               resolve(resolved(arrayLinks));
             }

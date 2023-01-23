@@ -33,6 +33,9 @@ const getLinks = (path) => new Promise((resolve, reject) => {
             isTitle = true;
           }
           if ((child.type === 'link_close') && (isTitle === false)) {
+            const linkObj = {};
+            linkObj.href = href;
+            linkObj.file = path;
             linkObj.text = text;
             // console.log('text: ', linkObj.text);
             isLinkClosed = true;
@@ -57,7 +60,7 @@ const getLinks = (path) => new Promise((resolve, reject) => {
 const getLinkStatus = (arrayLinks) => new Promise((resolve) => {
   const validateLinks = arrayLinks.map((link) => axios.get(link.href)
     .then((response) => {
-    // handle success
+      // handle success
       const { status } = response;
       return { ...link, status, message: 'ok' };
     })
@@ -81,9 +84,30 @@ const getLinkStatus = (arrayLinks) => new Promise((resolve) => {
   resolve(Promise.all(validateLinks));
 });
 
+const getStats = (links) => {
+  const uniqueLinks = new Set(links
+    .map((link) => link.href)).size;
+  return {
+    Total: links.length,
+    Unique: uniqueLinks,
+  };
+};
+
+const getStatsValidate = (links) => {
+  const uniqueLinks = new Set(links.map((link) => link.href)).size;
+  const brokenLinks = links.filter((link) => link.message === 'fail');
+  return {
+    Total: links.length,
+    Unique: uniqueLinks,
+    Broken: brokenLinks.length,
+  };
+};
+
 module.exports = {
   getLinks,
   getLinkStatus,
+  getStats,
+  getStatsValidate,
 };
 
 /*       for (let i = 0; i < result.length; i += 1) {

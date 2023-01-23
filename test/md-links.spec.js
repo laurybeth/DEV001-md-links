@@ -1,9 +1,6 @@
 const { mdLinks } = require('../src/index');
 const { getLinkStatus, getLinks } = require('../src/link');
 
-console.log(getLinkStatus);
-console.log(getLinks);
-
 jest.mock('../src/link');
 
 beforeEach(() => {
