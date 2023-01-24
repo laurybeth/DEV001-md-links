@@ -4,7 +4,9 @@ const { default: axios } = require('axios');
 const fs = require('fs');
 
 const md = new MarkdownIt();
-const { getLinks, getLinkStatus } = require('../src/link');
+const {
+  getLinks, getLinkStatus, getStats, getStatsWithValidate,
+} = require('../src/link');
 
 jest.mock('fs');
 jest.mock('markdown-it');
@@ -301,6 +303,23 @@ describe('getLinkStatus', () => {
     return expect(getLinkStatus(oneLink))
       .resolves
       .toEqual(expectedOneLinkStatus);
+  });
+});
+
+describe('getStats', () => {
+  it('Should resolve by returning an array of links with href, text, path, status and message properties', () => {
+    const stats = { Total: 1, Unique: 1 };
+
+    expect(getStats(oneLink))
+      .toEqual(stats);
+  });
+});
+
+describe('getStatsWithValidate', () => {
+  it('Should resolve by returning an array of links with href, text, path, status and message properties', () => {
+    const stats = { Total: 1, Unique: 1, Broken: 0 };
+    expect(getStatsWithValidate(expectedOneLinkStatus))
+      .toEqual(stats);
   });
 });
 /*  it('Should resolve by returning an array of links with href, text, path, status and message properties', () => {
