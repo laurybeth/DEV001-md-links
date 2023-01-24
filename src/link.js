@@ -9,8 +9,6 @@ const getLinks = (path) => new Promise((resolve, reject) => {
       const arrayLinks = [];
       const md = new MarkdownIt();
       const htmlContentArray = md.parse(content, {});
-      console.log('path', path);
-      //console.log('htmlContentArray: ', htmlContentArray);
       const inlineTokensArray = htmlContentArray.filter((token) => (token.type === 'inline'));
 
       inlineTokensArray.forEach((token) => {
@@ -94,7 +92,7 @@ const getStats = (links) => {
   };
 };
 
-const getStatsValidate = (links) => {
+const getStatsWithValidate = (links) => {
   const uniqueLinks = new Set(links.map((link) => link.href)).size;
   const brokenLinks = links.filter((link) => link.message === 'fail');
   return {
@@ -108,7 +106,7 @@ module.exports = {
   getLinks,
   getLinkStatus,
   getStats,
-  getStatsValidate,
+  getStatsWithValidate,
 };
 
 /*       for (let i = 0; i < result.length; i += 1) {

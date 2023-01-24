@@ -1,6 +1,6 @@
 const { resolved, rejected } = require('./promise');
 const {
-  getLinks, getLinkStatus, getStats, getStatsValidate,
+  getLinks, getLinkStatus, getStats, getStatsWithValidate,
 } = require('./link');
 
 const {
@@ -31,7 +31,7 @@ const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
             } else if (options.validate && options.stats) {
               getLinkStatus(arrayLinks)
                 .then((validateLinks) => {
-                  const stats = getStatsValidate(validateLinks);
+                  const stats = getStatsWithValidate(validateLinks);
                   const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}\nBroken: ${stats.Broken}`;
                   resolve(resolved(result));
                 })

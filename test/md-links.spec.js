@@ -1,12 +1,15 @@
 const { mdLinks } = require('../src/index');
-const { getLinkStatus, getLinks } = require('../src/link');
+const {
+  getLinkStatus, getLinks, getStats, getStatsWithValidate,
+} = require('../src/link');
 
 jest.mock('../src/link');
 
 beforeEach(() => {
   getLinks.mockClear();
   getLinkStatus.mockClear();
-  // jest.clearAllMocks();
+  getStats.mockClear();
+  getStatsWithValidate.mockClear();
 });
 
 const oneLink = [
@@ -104,5 +107,23 @@ describe('mdLinks', () => {
     expect(mdLinks('./sampleDirectory/fiveLinks.md', { validate: true }))
       .resolves
       .toEqual(expectedLinkStatus);
+  });
+  it('Should resolve by returning total and unique links', () => {
+    getLinks.mockResolvedValue(fiveLinks);
+    getStats.mockReturnValue({ Total: 5, Unique: 5 });
+    const result = '\nTotal: 5\nUnique: 5';
+    // console.log(result);
+    expect(mdLinks('./sampleDirectory/fiveLinks.md', { stats: true }))
+      .resolves
+      .toMatch(result);
+  });
+  it('Should resolve by returning total, unique and broken links', () => {
+    getLinks.mockResolvedValue(fiveLinks);
+    getLinkStatus.mockResolvedValue(expectedLinkStatus);
+    getStatsWithValidate.mockReturnValue({ Total: 5, Unique: 5, Broken: 2 });
+    const result = '\nTotal: 5\nUnique: 5\nBroken: 2';
+    expect(mdLinks('./sampleDirectory/fiveLinks.md', { stats: true, validate: true }))
+      .resolves
+      .toMatch(result);
   });
 });

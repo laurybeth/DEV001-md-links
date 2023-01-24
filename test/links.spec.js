@@ -1,13 +1,16 @@
 const MarkdownIt = require('markdown-it');
+const path = require('path');
 const { default: axios } = require('axios');
 const fs = require('fs');
+
+const md = new MarkdownIt();
 const { getLinks, getLinkStatus } = require('../src/link');
 
 jest.mock('fs');
 jest.mock('markdown-it');
 jest.mock('axios');
 
-const md = new MarkdownIt();
+// const md = new MarkdownIt();
 
 beforeEach(() => {
   axios.get.mockClear();
@@ -285,8 +288,8 @@ describe('getLinks', () => {
   it('Should resolve by returning an array of links with href, text and path properties', () => {
     fs.readFile.mockResolvedValue(readFileContent);
     md.parse.mockReturnValue(htmlContentArray);
-    const path = `\sampleDirectory\\oneLink.md`;
-    return expect(getLinks(path))
+    const resolvePath = path.resolve('./sampleDirectory/fiveLinks.md');
+    return expect(getLinks(resolvePath))
       .resolves
       .toEqual(oneLink);
   });
