@@ -9,7 +9,8 @@ const getLinks = (path) => new Promise((resolve, reject) => {
       const arrayLinks = [];
       const md = new MarkdownIt();
       const htmlContentArray = md.parse(content, {});
-
+      console.log('path', path);
+      //console.log('htmlContentArray: ', htmlContentArray);
       const inlineTokensArray = htmlContentArray.filter((token) => (token.type === 'inline'));
 
       inlineTokensArray.forEach((token) => {

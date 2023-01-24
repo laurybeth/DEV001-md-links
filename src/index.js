@@ -26,12 +26,14 @@ const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
                 });
             } else if (!options.validate && options.stats) {
               const stats = getStats(arrayLinks);
-              resolve(resolved(stats));
+              const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}`;
+              resolve(resolved(result));
             } else if (options.validate && options.stats) {
               getLinkStatus(arrayLinks)
                 .then((validateLinks) => {
-                  const statsAndValidate = getStatsValidate(validateLinks);
-                  resolve(resolved(statsAndValidate));
+                  const stats = getStatsValidate(validateLinks);
+                  const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}\nBroken: ${stats.Broken}`;
+                  resolve(resolved(result));
                 })
                 .catch((error) => {
                   reject(rejected(error));
