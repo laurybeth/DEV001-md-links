@@ -16,7 +16,48 @@ const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
       if (isMD(absolutePath)) {
         getLinks(absolutePath)
           .then((links) => {
+            if (links.length !== 0)
             // Verificar si validate = true
+            {
+              if (options.validate && !options.stats) {
+                getLinkStatus(links)
+                  .then((validateLinks) => {
+                    resolve(resolved(validateLinks));
+                  })
+                  .catch((error) => {
+                    reject(rejected(error));
+                  });
+              } else if (!options.validate && options.stats) {
+                const stats = getStats(links);
+                const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}`;
+                resolve(resolved(result));
+              } else if (options.validate && options.stats) {
+                getLinkStatus(links)
+                  .then((validateLinks) => {
+                    const stats = getStatsWithValidate(validateLinks);
+                    const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}\nBroken: ${stats.Broken}`;
+                    resolve(resolved(result));
+                  })
+                  .catch((error) => {
+                    reject(rejected(error));
+                  });
+              } else {
+                resolve(resolved(links));
+              }
+            } else {
+              reject(rejected(new Error('No link found')));
+            }
+          })
+          .catch((error) => {
+            reject(rejected(error));
+          });
+      } else {
+        reject(rejected('No MD file found'));
+      }
+    } else {
+      getLinksFromDirectory(absolutePath)
+        .then((links) => {
+          if (links.length !== 0) {
             if (options.validate && !options.stats) {
               getLinkStatus(links)
                 .then((validateLinks) => {
@@ -42,40 +83,8 @@ const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
             } else {
               resolve(resolved(links));
             }
-          })
-          .catch((error) => {
-            reject(rejected(error));
-          });
-      } else {
-        reject(rejected('No MD file found'));
-      }
-    } else {
-      getLinksFromDirectory(absolutePath)
-        .then((links) => {
-          if (options.validate && !options.stats) {
-            getLinkStatus(links)
-              .then((validateLinks) => {
-                resolve(resolved(validateLinks));
-              })
-              .catch((error) => {
-                reject(rejected(error));
-              });
-          } else if (!options.validate && options.stats) {
-            const stats = getStats(links);
-            const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}`;
-            resolve(resolved(result));
-          } else if (options.validate && options.stats) {
-            getLinkStatus(links)
-              .then((validateLinks) => {
-                const stats = getStatsWithValidate(validateLinks);
-                const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}\nBroken: ${stats.Broken}`;
-                resolve(resolved(result));
-              })
-              .catch((error) => {
-                reject(rejected(error));
-              });
           } else {
-            resolve(resolved(links));
+            reject(rejected(new Error('No link found')));
           }
         })
         .catch((error) => {

@@ -96,7 +96,7 @@ describe('mdLinks', () => {
       .toStrictEqual(oneLink);
   });
   it('Should reject when the md file does not contain links', () => {
-    getLinks.mockRejectedValue(new Error('No link found'));
+    getLinks.mockResolvedValue([]);
     expect(mdLinks('./sampleDirectory/noLinks.md'))
       .rejects
       .toStrictEqual(new Error('No link found'));

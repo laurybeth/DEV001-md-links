@@ -28,12 +28,27 @@ const getLinksFromDirectory = (path) => new Promise((resolve, reject) => {
 
     let totalLinks = [];
 
-    Promise.all(arraysLinks).then((arrayLinks) => {
-      arrayLinks.forEach((array) => {
-        totalLinks = totalLinks.concat(array);
+    Promise.allSettled(arraysLinks)
+      .then((responses) => {
+        responses.forEach((response) => {
+          if (response.value !== undefined) {
+            const arrayLinks = response.value;
+            arrayLinks.forEach((array) => {
+              totalLinks = totalLinks.concat(array);
+            });
+          }
+        });
+        // console.log(totalLinks);
+        resolve(totalLinks);
       });
-      resolve(totalLinks);
-    });
+
+    /*     Promise.all(arraysLinks)
+      .then((arrayLinks) => {
+        arrayLinks.forEach((array) => {
+          totalLinks = totalLinks.concat(array);
+        });
+        resolve(totalLinks);
+      }); */
   } else {
     reject(new Error('No MD file found'));
   }

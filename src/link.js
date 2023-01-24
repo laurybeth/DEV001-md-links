@@ -42,12 +42,7 @@ const getLinks = (path) => new Promise((resolve, reject) => {
           }
         });
       });
-
-      if (arrayLinks.length === 0) {
-        reject(new Error('No link found'));
-      } else {
-        resolve(arrayLinks);
-      }
+      resolve(arrayLinks);
 
       // console.log('arrayLinks: ', arrayLinks);
     })
