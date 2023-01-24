@@ -5,7 +5,7 @@ const {
 
 const {
   isValid, resolvePath, isDirectory, isMD,
-} = require('./checkPath');
+} = require('./path');
 
 const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
   if (isValid(filePath)) {
