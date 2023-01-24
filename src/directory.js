@@ -3,7 +3,7 @@ const { getLinks } = require('./link');
 
 const { isDirectory, isMD } = require('./path');
 
-const getLinksFromDirectory = (path) => {
+const getLinksFromDirectory = (path, arrayOfFiles = []) => {
   const files = fs.readdirSync(path);
 
   const arrayFiles = [];
@@ -45,9 +45,8 @@ const getLinksFromDirectory = (path) => {
 
         return arrayOfLinks;
       });
-  } else {
-    return [];
   }
+  return arrayOfFiles;
 };
 
 module.exports = {
