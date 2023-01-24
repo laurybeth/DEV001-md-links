@@ -26,19 +26,14 @@ const getLinksFromDirectory = (path) => new Promise((resolve, reject) => {
         .then((arrayLinks) => arrayLinks)
         .catch((error) => reject(error)));
 
-    const totalLinks = [];
+    let totalLinks = [];
 
     Promise.all(arraysLinks).then((arrayLinks) => {
-      arrayLinks.forEach((arrays) => {
-        arrays.forEach((link) => {
-          // console.log('link', link);
-          totalLinks.push(link);
-        });
+      arrayLinks.forEach((array) => {
+        totalLinks = totalLinks.concat(array);
       });
       resolve(totalLinks);
     });
-
-    // resolve(finalLinks);
   } else {
     reject(new Error('No MD file found'));
   }
