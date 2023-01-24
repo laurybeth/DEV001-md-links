@@ -3,13 +3,16 @@ const { getLinks } = require('./link');
 
 const { isDirectory, isMD } = require('./path');
 
-const getLinksFromDirectory = (path) => new Promise((resolve, reject) => {
+const getLinksFromDirectory = (path) => {
   const files = fs.readdirSync(path);
+
   const arrayFiles = [];
 
   files.forEach((file) => {
     const filePath = `${path}/${file}`;
+
     if (isDirectory(filePath)) {
+      // console.log('es directorio', filePath);
       getLinksFromDirectory(filePath);
     } else {
       arrayFiles.push(filePath);
@@ -18,41 +21,34 @@ const getLinksFromDirectory = (path) => new Promise((resolve, reject) => {
 
   const mdFiles = arrayFiles.filter((filePath) => (isMD(filePath)));
 
-  // resolve(mdFiles);
-
   if (mdFiles.length !== 0) {
-    const arraysLinks = mdFiles
-      .map((mdFile) => getLinks(mdFile)
-        .then((arrayLinks) => arrayLinks)
-        .catch((error) => reject(error)));
+    const arraysLinks = mdFiles.map((mdFile) => getLinks(mdFile)
+      .then((arrayLinks) => arrayLinks));
 
     let totalLinks = [];
 
     Promise.allSettled(arraysLinks)
       .then((responses) => {
         responses.forEach((response) => {
-          if (response.value !== undefined) {
-            const arrayLinks = response.value;
-            arrayLinks.forEach((array) => {
-              totalLinks = totalLinks.concat(array);
-            });
-          }
-        });
-        // console.log(totalLinks);
-        resolve(totalLinks);
-      });
+          // console.log('value', response.value);
+          const arrayLinks = response.value;
 
-    /*     Promise.all(arraysLinks)
-      .then((arrayLinks) => {
-        arrayLinks.forEach((array) => {
-          totalLinks = totalLinks.concat(array);
+          arrayLinks.forEach((array) => {
+            totalLinks = totalLinks.concat(array);
+          });
         });
-        resolve(totalLinks);
-      }); */
+        // console.log('totalLinks', totalLinks);
+        const arrayOfLinks = [];
+        totalLinks.forEach((link) => {
+          arrayOfLinks.push(link);
+        });
+
+        return arrayOfLinks;
+      });
   } else {
-    reject(new Error('No MD file found'));
+    return [];
   }
-});
+};
 
 module.exports = {
   getLinksFromDirectory,
