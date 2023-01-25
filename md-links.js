@@ -1,12 +1,12 @@
-const { getLinksFromDir } = require('./directory');
-const { resolved, rejected } = require('./promise');
+const { getLinksFromDir } = require('./src/directory');
+const { resolved, rejected } = require('./src/promise');
 const {
   getLinks, getLinkStatus, getStats, getStatsWithValidate,
-} = require('./link');
+} = require('./src/link');
 
 const {
   isValid, resolvePath, isDirectory, isMD,
-} = require('./path');
+} = require('./src/path');
 
 const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
   if (isValid(filePath)) {

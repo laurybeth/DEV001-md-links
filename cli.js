@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { mdLinks } = require('./src/md-links');
+const { mdLinks } = require('./md-links');
 const { validateCommands } = require('./src/utils');
 
 const args = process.argv.slice(2); //  process.argv property is an inbuilt application programming interface of the process module which is used to get the arguments passed to the node.js
