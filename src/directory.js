@@ -3,70 +3,40 @@ const { getLinks } = require('./link');
 
 const { isDirectory, isMD } = require('./path');
 
-const getLinksFromDirectory = (path) => {
-  const files = fs.readdirSync(path);
+const getMDFilesPathFromDir = (path) => {
+  let arrayFiles = [];
 
-  const arrayFiles = [];
+  if (isDirectory(path)) {
+    const directoryFiles = fs.readdirSync(path);
+    directoryFiles.forEach((file) => {
+      arrayFiles = arrayFiles.concat(getMDFilesPathFromDir(`${path}\\${file}`));
+    });
+  } else {
+    arrayFiles.push(path);
+  }
+  return arrayFiles.filter((file) => isMD(file));
+};
 
-  files.forEach((file) => {
-    const filePath = `${path}/${file}`;
-
-    if (isDirectory(filePath)) {
-      // console.log('es directorio', filePath);
-      getLinksFromDirectory(filePath);
-    } else {
-      arrayFiles.push(filePath);
-    }
-  });
-
-  const mdFiles = arrayFiles.filter((filePath) => (isMD(filePath)));
-  console.log('arrayFiles', mdFiles);
+const getLinksFromDir = (path) => new Promise((resolve, reject) => {
+  // todo el codigo
+  const mdFiles = getMDFilesPathFromDir(path);
   if (mdFiles.length !== 0) {
-    const arraysLinks = mdFiles.map((mdFile) => getLinks(mdFile)
+    const manyArraysLinks = mdFiles.map((mdFile) => getLinks(mdFile)
       .then((arrayLinks) => arrayLinks));
 
-    let totalLinks = [];
-
-    Promise.allSettled(arraysLinks)
-      .then((responses) => {
-        responses.forEach((response) => {
-          // console.log('value', response.value);
-          const arrayLinks = response.value;
-
-          arrayLinks.forEach((array) => {
-            totalLinks = totalLinks.concat(array);
-          });
-        });
-        // console.log('totalLinks', totalLinks);
-        const arrayOfLinks = [];
-        totalLinks.forEach((link) => {
-          arrayOfLinks.push(link);
-        });
-
-        return arrayOfLinks;
+    let singleArrayLinks = [];
+    Promise.all(manyArraysLinks).then((arraysLinks) => {
+      arraysLinks.forEach((array) => {
+        singleArrayLinks = singleArrayLinks.concat(array);
       });
+
+      resolve(Promise.all(singleArrayLinks));
+    });
+  } else {
+    reject(new Error('No MD file found'));
   }
-  return arrayFiles;
-};
-
-const getFilesPathFromDir = (path) => {
-  const arrayFiles = [];
-
-  const files = fs.readdirSync(path);
-
-  files.forEach((file) => {
-    const filePath = `${path}/${file}`;
-
-    if (isDirectory(filePath)) {
-      // console.log('es directorio', filePath);
-      getLinksFromDirectory(filePath, arrayFiles);
-    } else {
-      arrayFiles.push(filePath);
-    }
-  });
-  return [...arrayFiles, ...getFilesPathFromDir(path)];
-};
+});
 
 module.exports = {
-  getLinksFromDirectory,
+  getLinksFromDir,
 };

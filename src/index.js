@@ -1,4 +1,4 @@
-const { getLinksFromDirectory } = require('./directory');
+const { getLinksFromDir } = require('./directory');
 const { resolved, rejected } = require('./promise');
 const {
   getLinks, getLinkStatus, getStats, getStatsWithValidate,
@@ -50,8 +50,10 @@ const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
         reject(rejected('No MD file found'));
       }
     } else {
-      const linksFromDirectory = getLinksFromDirectory(absolutePath);
-      resolve(resolved(linksFromDirectory));
+      // const linksFromDirectory =
+      getLinksFromDir(absolutePath)
+        .then((linksFromDirectory) => resolve(resolved(linksFromDirectory)))
+        .catch((err) => console.log(err));
     }
   } else {
     reject(rejected('Invalid path'));
