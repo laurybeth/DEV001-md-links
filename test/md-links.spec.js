@@ -1,4 +1,4 @@
-const { mdLinks } = require('../src/md-links');
+const { mdLinks } = require('../md-links');
 const {
   getLinkStatus, getLinks, getStats, getStatsWithValidate,
 } = require('../src/link');
@@ -82,6 +82,68 @@ const expectedLinkStatus = [
   },
 ];
 
+const twoLinks = [
+  {
+    href: 'https://nodejs.org/api/path.html',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\directoryTwo\\twoLinks.md',
+    text: 'Path',
+  },
+  {
+    href: 'https://medium.com/netscape/a-guide-to-create-a-nodejs-command-line-package-c2166ad0452e',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\directoryTwo\\twoLinks.md',
+    text: 'Linea de comando CLI',
+  },
+
+];
+
+const threeLinks = [
+
+  {
+    href: 'https://github.com/workshopper/learnyounode',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\threeLinks.md',
+    text: 'learnyounode',
+  },
+  {
+    href: 'https://github.com/workshopper/how-to-npm',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\threeLinks.md',
+    text: 'how-to-npm',
+  },
+  {
+    href: 'https://github.com/stevekane/promise-it-wont-hurt',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\threeLinks.md',
+    text: 'promise-it-wont-hurt',
+  },
+];
+
+const dirLinks = [
+  {
+    href: 'https://nodejs.org/api/path.html',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\directoryTwo\\twoLinks.md',
+    text: 'Path',
+  },
+  {
+    href: 'https://medium.com/netscape/a-guide-to-create-a-nodejs-command-line-package-c2166ad0452e',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\directoryTwo\\twoLinks.md',
+    text: 'Linea de comando CLI',
+  },
+
+  {
+    href: 'https://github.com/workshopper/learnyounode',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\threeLinks.md',
+    text: 'learnyounode',
+  },
+  {
+    href: 'https://github.com/workshopper/how-to-npm',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\threeLinks.md',
+    text: 'how-to-npm',
+  },
+  {
+    href: 'https://github.com/stevekane/promise-it-wont-hurt',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\threeLinks.md',
+    text: 'promise-it-wont-hurt',
+  },
+];
+
 describe('mdLinks', () => {
   it('Should reject when it is an invalid path', () => expect(mdLinks('./README'))
     .rejects
@@ -124,5 +186,13 @@ describe('mdLinks', () => {
     expect(mdLinks('./sampleDirectory/fiveLinks.md', { stats: true, validate: true }))
       .resolves
       .toMatch(result);
+  });
+
+  it('Should resolve by returning all links from a directory, recursively', () => {
+    getLinks.mockResolvedValueOnce(twoLinks);
+    getLinks.mockResolvedValueOnce(threeLinks);
+    expect(mdLinks('./sampleDirectory/directory'))
+      .resolves
+      .toEqual(dirLinks);
   });
 });
