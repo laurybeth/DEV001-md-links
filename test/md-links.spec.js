@@ -1,4 +1,4 @@
-const { mdLinks } = require('../src/index');
+const { mdLinks } = require('../src/md-links');
 const {
   getLinkStatus, getLinks, getStats, getStatsWithValidate,
 } = require('../src/link');
@@ -86,7 +86,7 @@ describe('mdLinks', () => {
   it('Should reject when it is an invalid path', () => expect(mdLinks('./README'))
     .rejects
     .toMatch('Invalid path'));
-  it('Should reject when the file path does not belong to an md file', () => expect(mdLinks('./src/index.js'))
+  it('Should reject when the file path does not belong to an md file', () => expect(mdLinks('./src/link.js'))
     .rejects
     .toMatch('No MD file found'));
   it('Should resolve by returning an array of links with href, text and path properties', () => {
