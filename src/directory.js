@@ -3,7 +3,7 @@ const { getLinks } = require('./link');
 
 const { isDirectory, isMD } = require('./path');
 
-const getLinksFromDirectory = (path, arrayOfFiles = []) => {
+const getLinksFromDirectory = (path) => {
   const files = fs.readdirSync(path);
 
   const arrayFiles = [];
@@ -20,7 +20,7 @@ const getLinksFromDirectory = (path, arrayOfFiles = []) => {
   });
 
   const mdFiles = arrayFiles.filter((filePath) => (isMD(filePath)));
-
+  console.log('arrayFiles', mdFiles);
   if (mdFiles.length !== 0) {
     const arraysLinks = mdFiles.map((mdFile) => getLinks(mdFile)
       .then((arrayLinks) => arrayLinks));
@@ -46,7 +46,25 @@ const getLinksFromDirectory = (path, arrayOfFiles = []) => {
         return arrayOfLinks;
       });
   }
-  return arrayOfFiles;
+  return arrayFiles;
+};
+
+const getFilesPathFromDir = (path) => {
+  const arrayFiles = [];
+
+  const files = fs.readdirSync(path);
+
+  files.forEach((file) => {
+    const filePath = `${path}/${file}`;
+
+    if (isDirectory(filePath)) {
+      // console.log('es directorio', filePath);
+      getLinksFromDirectory(filePath, arrayFiles);
+    } else {
+      arrayFiles.push(filePath);
+    }
+  });
+  return [...arrayFiles, ...getFilesPathFromDir(path)];
 };
 
 module.exports = {
