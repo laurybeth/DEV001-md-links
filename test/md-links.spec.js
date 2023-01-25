@@ -112,7 +112,6 @@ describe('mdLinks', () => {
     getLinks.mockResolvedValue(fiveLinks);
     getStats.mockReturnValue({ Total: 5, Unique: 5 });
     const result = '\nTotal: 5\nUnique: 5';
-    // console.log(result);
     expect(mdLinks('./sampleDirectory/fiveLinks.md', { stats: true }))
       .resolves
       .toMatch(result);
