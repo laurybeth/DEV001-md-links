@@ -99,7 +99,7 @@ describe('mdLinks', () => {
     getLinks.mockResolvedValue([]);
     expect(mdLinks('./sampleDirectory/noLinks.md'))
       .rejects
-      .toStrictEqual(new Error('No link found'));
+      .toMatch('No link found');
   });
   it('Should resolve by returning an array of links with href, text, path, status and message properties', () => {
     getLinks.mockResolvedValue(fiveLinks);
