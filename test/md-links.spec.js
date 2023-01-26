@@ -70,7 +70,7 @@ const expectedLinkStatus = [
     href: 'http://community.laboratoria.la/t/modulos-librerias-paquetes-frameworks-cual-es-la-diferencia/175',
     file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\tenLinks.md',
     text: 'Módulos, librerías, paquetes, frameworks... ¿cuál es la diferencia?',
-    status: 400,
+    status: 500,
     message: 'fail',
   },
   {

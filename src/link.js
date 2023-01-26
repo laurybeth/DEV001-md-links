@@ -66,10 +66,10 @@ const getLinkStatus = (arrayLinks) => new Promise((resolve) => {
         errorStatus = error.response.status;
       } else if (error.request) {
         // La petición fue hecha pero no se recibió respuesta
-        errorStatus = 400;
+        errorStatus = 500;
       } else {
         // Algo paso al preparar la petición que lanzo un Error
-        errorStatus = 500;
+        errorStatus = 400;
       }
       // console.log('errorStatus', errorStatus);
       return { ...link, status: errorStatus, message: 'fail' };
