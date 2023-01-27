@@ -16,32 +16,10 @@ const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
         getLinks(absolutePath)
           .then((links) => {
             if (links.length !== 0) {
-            // Verificar si validate = true
-              if (options.validate && !options.stats) {
-                getLinkStatus(links)
-                  .then((validateLinks) => {
-                    resolve(validateLinks);
-                  })
-                  .catch((error) => {
-                    reject(error);
-                  });
-              } else if (!options.validate && options.stats) {
-                const stats = getStats(links);
-                const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}`;
-                resolve(result);
-              } else if (options.validate && options.stats) {
-                getLinkStatus(links)
-                  .then((validateLinks) => {
-                    const stats = getStatsWithValidate(validateLinks);
-                    const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}\nBroken: ${stats.Broken}`;
-                    resolve(result);
-                  })
-                  .catch((error) => {
-                    reject(error);
-                  });
-              } else {
-                resolve(links);
-              }
+              // eslint-disable-next-line no-use-before-define
+              resolveOptions(links, options)
+                .then((result) => resolve(result))
+                .catch((error) => reject(error));
             } else {
               reject(new Error('No link found'));
             }
@@ -56,32 +34,10 @@ const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
       // const linksFromDirectory =
       getLinksFromDir(absolutePath)
         .then((links) => {
-          // Verificar si validate = true
-          if (options.validate && !options.stats) {
-            getLinkStatus(links)
-              .then((validateLinks) => {
-                resolve(validateLinks);
-              })
-              .catch((error) => {
-                reject(error);
-              });
-          } else if (!options.validate && options.stats) {
-            const stats = getStats(links);
-            const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}`;
-            resolve(result);
-          } else if (options.validate && options.stats) {
-            getLinkStatus(links)
-              .then((validateLinks) => {
-                const stats = getStatsWithValidate(validateLinks);
-                const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}\nBroken: ${stats.Broken}`;
-                resolve(result);
-              })
-              .catch((error) => {
-                reject(error);
-              });
-          } else {
-            resolve(links);
-          }
+          // eslint-disable-next-line no-use-before-define
+          resolveOptions(links, options)
+            .then((result) => resolve(result))
+            .catch((error) => reject(error));
         })
         .catch((error) => {
           reject(error);
@@ -89,6 +45,34 @@ const mdLinks = (filePath, options = {}) => new Promise((resolve, reject) => {
     }
   } else {
     reject(new Error('Invalid path'));
+  }
+});
+
+const resolveOptions = (links, options) => new Promise((resolve, reject) => {
+  if (options.validate && !options.stats) {
+    getLinkStatus(links)
+      .then((validateLinks) => {
+        resolve(validateLinks);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  } else if (!options.validate && options.stats) {
+    const stats = getStats(links);
+    const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}`;
+    resolve(result);
+  } else if (options.validate && options.stats) {
+    getLinkStatus(links)
+      .then((validateLinks) => {
+        const stats = getStatsWithValidate(validateLinks);
+        const result = `\nTotal: ${stats.Total}\nUnique: ${stats.Unique}\nBroken: ${stats.Broken}`;
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  } else {
+    resolve(links);
   }
 });
 
