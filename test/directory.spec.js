@@ -59,7 +59,7 @@ describe('getMDFilesPathFromDir', () => {
 });
 
 describe('getLinksFromDir', () => {
-  it('Should return all the MD files paths from a directory', () => expect(getLinksFromDir('./sampleDirectory/directory'))
+  it('Should resolve by returning an array of links with href, text and path properties from a directory', () => expect(getLinksFromDir('./sampleDirectory/directory'))
     .resolves
     .toEqual(linksFromDir));
 });
