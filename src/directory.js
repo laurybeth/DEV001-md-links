@@ -1,13 +1,13 @@
 const fs = require('fs');
 const { getLinks } = require('./link');
 
-const { isDirectory, isMD } = require('./path');
+const { resolvePath, isDirectory, isMD } = require('./path');
 
 const getMDFilesPathFromDir = (path) => {
   let arrayFiles = [];
-
   if (isDirectory(path)) {
     const directoryFiles = fs.readdirSync(path);
+
     directoryFiles.forEach((file) => {
       arrayFiles = arrayFiles.concat(getMDFilesPathFromDir(`${path}\\${file}`));
     });
@@ -19,7 +19,8 @@ const getMDFilesPathFromDir = (path) => {
 
 const getLinksFromDir = (path) => new Promise((resolve, reject) => {
   // todo el codigo
-  const mdFiles = getMDFilesPathFromDir(path);
+  const absolutePath = resolvePath(path);
+  const mdFiles = getMDFilesPathFromDir(absolutePath);
   if (mdFiles.length !== 0) {
     const manyArraysLinks = mdFiles.map((mdFile) => getLinks(mdFile)
       .then((arrayLinks) => arrayLinks));
@@ -38,5 +39,6 @@ const getLinksFromDir = (path) => new Promise((resolve, reject) => {
 });
 
 module.exports = {
+  getMDFilesPathFromDir,
   getLinksFromDir,
 };
