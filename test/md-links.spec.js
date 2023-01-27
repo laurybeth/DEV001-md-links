@@ -147,10 +147,10 @@ const dirLinks = [
 describe('mdLinks', () => {
   it('Should reject when it is an invalid path', () => expect(mdLinks('./README'))
     .rejects
-    .toMatch('Invalid path'));
+    .toEqual(new Error('Invalid path')));
   it('Should reject when the file path does not belong to an md file', () => expect(mdLinks('./src/link.js'))
     .rejects
-    .toMatch('No MD file found'));
+    .toEqual(new Error('No MD file found')));
   it('Should resolve by returning an array of links with href, text and path properties', () => {
     getLinks.mockResolvedValue(oneLink);
     expect(mdLinks('./sampleDirectory/oneLink.md'))
@@ -161,7 +161,7 @@ describe('mdLinks', () => {
     getLinks.mockResolvedValue([]);
     expect(mdLinks('./sampleDirectory/noLinks.md'))
       .rejects
-      .toMatch('No link found');
+      .toEqual(new Error('No link found'));
   });
   it('Should resolve by returning an array of links with href, text, path, status and message properties', () => {
     getLinks.mockResolvedValue(fiveLinks);
