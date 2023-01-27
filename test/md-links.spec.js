@@ -3,9 +3,13 @@ const {
   getLinkStatus, getLinks, getStats, getStatsWithValidate,
 } = require('../src/link');
 
+const { getLinksFromDir } = require('../src/directory');
+
 jest.mock('../src/link');
+jest.mock('../src/directory');
 
 beforeEach(() => {
+  getLinksFromDir.mockClear();
   getLinks.mockClear();
   getLinkStatus.mockClear();
   getStats.mockClear();
@@ -48,16 +52,20 @@ const fiveLinks = [
   },
 ];
 
-const expectedLinkStatus = [
+const fiveLinkStatus = [
   {
     href: 'https://help.github.com/articles/fork-a-repo/',
     file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\fiveLinks.md',
     text: 'fork',
+    status: 200,
+    message: 'ok',
   },
   {
     href: 'https://gist.github.com/BCasal/026e4c7f5c71418485c1',
     file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\fiveLinks.md',
     text: 'configurar',
+    status: 200,
+    message: 'ok',
   },
   {
     href: 'https://help.github.com/articles/cloning-a-repository/',
@@ -144,6 +152,44 @@ const dirLinks = [
   },
 ];
 
+const dirLinksStatus = [
+  {
+    href: 'https://nodejs.org/api/path.html',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\directoryTwo\\twoLinks.md',
+    text: 'Path',
+    status: 200,
+    message: 'ok',
+  },
+  {
+    href: 'https://medium.com/netscape/a-guide-to-create-a-nodejs-command-line-package-c2166ad0452e',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\directoryTwo\\twoLinks.md',
+    text: 'Linea de comando CLI',
+    status: 200,
+    message: 'ok',
+  },
+  {
+    href: 'https://github.com/workshopper/learnyounode',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\threeLinks.md',
+    text: 'learnyounode',
+    status: 200,
+    message: 'ok',
+  },
+  {
+    href: 'https://github.com/workshopper/how-to-npm',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\threeLinks.md',
+    text: 'how-to-npm',
+    status: 200,
+    message: 'ok',
+  },
+  {
+    href: 'https://github.com/stevekane/promise-it-wont-hurt',
+    file: 'D:\\Documentos\\ProyectosLab\\DEV001-md-links\\sampleDirectory\\directory\\threeLinks.md',
+    text: 'promise-it-wont-hurt',
+    status: 200,
+    message: 'ok',
+  },
+];
+
 describe('mdLinks', () => {
   it('Should reject when it is an invalid path', () => expect(mdLinks('./README'))
     .rejects
@@ -165,10 +211,10 @@ describe('mdLinks', () => {
   });
   it('Should resolve by returning an array of links with href, text, path, status and message properties', () => {
     getLinks.mockResolvedValue(fiveLinks);
-    getLinkStatus.mockResolvedValue(expectedLinkStatus);
+    getLinkStatus.mockResolvedValue(fiveLinkStatus);
     expect(mdLinks('./sampleDirectory/fiveLinks.md', { validate: true }))
       .resolves
-      .toEqual(expectedLinkStatus);
+      .toEqual(fiveLinkStatus);
   });
   it('Should resolve by returning total and unique links', () => {
     getLinks.mockResolvedValue(fiveLinks);
@@ -180,7 +226,7 @@ describe('mdLinks', () => {
   });
   it('Should resolve by returning total, unique and broken links', () => {
     getLinks.mockResolvedValue(fiveLinks);
-    getLinkStatus.mockResolvedValue(expectedLinkStatus);
+    getLinkStatus.mockResolvedValue(fiveLinkStatus);
     getStatsWithValidate.mockReturnValue({ Total: 5, Unique: 5, Broken: 2 });
     const result = '\nTotal: 5\nUnique: 5\nBroken: 2';
     expect(mdLinks('./sampleDirectory/fiveLinks.md', { stats: true, validate: true }))
@@ -188,11 +234,17 @@ describe('mdLinks', () => {
       .toMatch(result);
   });
 
-  it('Should resolve by returning all links from a directory, recursively', () => {
-    getLinks.mockResolvedValueOnce(twoLinks);
-    getLinks.mockResolvedValueOnce(threeLinks);
+  it('Should resolve by returning all links from a directory with href, text, path properties', () => {
+    getLinksFromDir.mockResolvedValue(dirLinks);
     expect(mdLinks('./sampleDirectory/directory'))
       .resolves
       .toEqual(dirLinks);
+  });
+  it('Should resolve by returning all links from a directory with href, text, path, status and message properties', () => {
+    getLinksFromDir.mockResolvedValue(dirLinks);
+    getLinkStatus.mockResolvedValue(dirLinksStatus);
+    expect(mdLinks('./sampleDirectory/directory', { validate: true }))
+      .resolves
+      .toEqual(dirLinksStatus);
   });
 });
