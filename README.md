@@ -14,11 +14,12 @@ Herramienta que analiza archivos en formato Markdown para verificar los links qu
 ## 1. Diagrama de flujo 
 El algoritmo para el desarrollo de esta librería se encuentra representado en el siguiente diagrama de flujo
 
+![diagrama](https://i.postimg.cc/xf3Zgvvy/md-links.jpg)
+
 ## 2. Instalación
 
 `npm install mdlinks-lca`
 
-![diagrama](https://i.postimg.cc/xf3Zgvvy/md-links.jpg)
 
 ## 3. JavaScript API
 
