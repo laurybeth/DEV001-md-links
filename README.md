@@ -2,8 +2,8 @@
 Herramienta que analiza archivos en formato Markdown para verificar los links que contengan y reportar estadísticas.
 ## Índice
 
-* [1. Instalación](#1-instalación)
-* [2. Algoritmo](#2-diagrama-de-flujo)
+* [1. Algoritmo](#2-diagrama-de-flujo)
+* [2. Instalación](#1-instalación)
 * [3. API](#3-api)
 * [4. CLI](#4-cli)
 
@@ -11,12 +11,12 @@ Herramienta que analiza archivos en formato Markdown para verificar los links qu
 
 ***
 
-## 1. Instalación
+## 1. Diagrama de flujo 
+El algoritmo para el desarrollo de esta librería se encuentra representado en el siguiente diagrama de flujo
+
+## 2. Instalación
 
 `npm install mdlinks-lca`
-
-## 2. Diagrama de flujo 
-El algoritmo para el desarrollo de esta librería se encuentra representado en el siguiente diagrama de flujo
 
 ![diagrama](https://i.postimg.cc/xf3Zgvvy/md-links.jpg)
 
