@@ -1,12 +1,27 @@
-const validateCommands = (commands) => new Promise((resolve, reject) => {
+const validateCommands = (inputCommands) => new Promise((resolve, reject) => {
   const options = {};
+  // const commands = ['--validate', '--stats'];
+  let invalidCommand = '';
 
-  if (commands.includes('--validate')) {
-    options.validate = true;
-  }
+  inputCommands.forEach((inputCommand) => {
+    if (inputCommand.includes('--validate')) {
+      options.validate = true;
+    } else if (inputCommand.includes('--stats')) {
+      options.stats = true;
+    } else {
+      invalidCommand += `${inputCommand} `;
+    }
+    /*     commands.forEach((command) => {
+      if (inputCommand === command) {
+        // console.log(inputCommand, command);
+        //options[command] = true;
+        options.command = true;
+      }
+    }); */
+  });
 
-  if (commands.includes('--stats')) {
-    options.stats = true;
+  if ((Object.keys(options).length === 0) || invalidCommand) {
+    reject(new Error(`Md-links: ${invalidCommand} not a md-links command (s)`));
   }
 
   resolve(options);
