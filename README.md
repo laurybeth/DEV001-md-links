@@ -14,9 +14,9 @@ Herramienta que analiza archivos en formato Markdown para verificar los links qu
 ## 1. Instalación
 
 ## 2. Diagrama de flujo 
-El algoritmo para el desarrollo de esta librería se encuentra modelado representado en el siguiente diagrama de flujo
+El algoritmo para el desarrollo de esta librería se encuentra representado en el siguiente diagrama de flujo
 
-![diagrama](https://i.postimg.cc/NFLbjrP5/md-links.jpg)
+![diagrama](https://i.postimg.cc/xf3Zgvvy/md-links.jpg)
 
 ## 3. JavaScript API
 
