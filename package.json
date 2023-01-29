@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "mdlinks-lca",
   "version": "1.0.0",
   "type": "commonjs",
     "keywords": [
@@ -35,7 +35,7 @@
   },
   "preferGlobal": true,
   "bin": {
-    "md-links": "./cli.js"
+    "mdlinks-lca": "./cli.js"
   },
   "homepage": "https://github.com/laurybeth/DEV001-md-links#readme",
   "dependencies": {
