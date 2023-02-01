@@ -20,7 +20,7 @@ const validateCommands = (inputCommands) => new Promise((resolve, reject) => {
     }); */
   });
 
-  if ((Object.keys(options).length === 0) || invalidCommand) {
+  if (invalidCommand) {
     reject(new Error(`Md-links: ${invalidCommand} not a md-links command (s)`));
   }
 
