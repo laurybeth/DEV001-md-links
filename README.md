@@ -20,7 +20,10 @@ El algoritmo para el desarrollo de esta librería se encuentra representado en e
 
 `npm install mdlinks-lca`
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7072d865c705460ed1bfad9c56a03b2650b36484
 ## 3. JavaScript API
 
 El módulo debe poder **importarse** en otros scripts de Node.js y debe ofrecer la
